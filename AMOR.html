@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feliz 4 meses, Dany 💖</title>
+<style>
+  /* === Fondo animado estilo Inosuke === */
+  body {
+    margin:0; padding:0;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x:hidden;
+    background: radial-gradient(circle, #0f0f1c 0%, #1b1b2f 100%);
+    position: relative;
+  }
+
+  /* Animación de energía */
+  body::before {
+    content:"";
+    position: fixed;
+    top:0; left:0; width:100%; height:100%;
+    background: conic-gradient(from 0deg, #00ffff, #ff00ff, #00ffff);
+    opacity:0.2;
+    animation: spin 10s linear infinite;
+    z-index:-1;
+  }
+  @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+
+  main.page {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+    padding:20px;
+    transition: opacity 0.5s ease;
+  }
+
+  .card {
+    background: rgba(0,0,0,0.7);
+    padding:30px 25px;
+    border-radius:25px;
+    max-width:500px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(0,255,255,0.4);
+    animation: aura 3s infinite alternate;
+    position:relative;
+  }
+
+  @keyframes aura {
+    0% { box-shadow: 0 0 20px rgba(0,200,255,0.3); }
+    50% { box-shadow: 0 0 50px rgba(124,58,237,0.6); }
+    100% { box-shadow: 0 0 40px rgba(6,182,212,0.7); }
+  }
+
+  h1,h2 { margin:0 0 20px; font-weight:600; }
+  p#typed { font-size:1rem; line-height:1.6; min-height:80px; margin-bottom:25px; }
+  .btn {
+    display:inline-block;
+    padding:12px 25px;
+    margin:8px;
+    background:#00bcd4;
+    color:white;
+    text-decoration:none;
+    border-radius:12px;
+    cursor:pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+  }
+  .btn:hover { background:#0097a7; transform: scale(1.05); }
+
+  h2.q { font-size:1.3rem; margin-bottom:20px; }
+  .heart {
+    position:absolute;
+    color:pink;
+    font-size:22px;
+    animation: float 3s linear infinite;
+    pointer-events:none;
+  }
+  @keyframes float {
+    0% { transform: translateY(0) scale(1); opacity:1; }
+    50% { transform: translateY(-50vh) scale(1.2); opacity:0.7; }
+    100% { transform: translateY(-100vh) scale(0.8); opacity:0; }
+  }
+
+  @media (max-width:500px){
+    .card{padding:20px 15px;}
+    h1,h2{font-size:1.2rem;}
+    p#typed{font-size:0.9rem;}
+    .btn{padding:10px 20px; font-size:0.9rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Página 1: Bienvenida -->
+<main id="page1" class="page">
+  <div class="card">
+    <h1>Feliz 4 meses, Dany 💖</h1>
+    <p id="typed"></p>
+    <a class="btn" onclick="goToPage(2)">Continuar</a>
+  </div>
+</main>
+
+<!-- Página 2: Pregunta -->
+<main id="page2" class="page" style="display:none;">
+  <div class="card">
+    <h2 class="q">¿Quieres seguir siendo mi compañero de aventuras?</h2>
+    <div>
+      <button class="btn" onclick="goToPage(3)">Sí</button>
+      <button id="noBtn" class="btn">No</button>
+    </div>
+    <p>(Intenta atrapar el "No" si puedes 😅)</p>
+  </div>
+</main>
+
+<!-- Página 3: Sorpresa -->
+<main id="page3" class="page" style="display:none; position:relative; overflow:hidden;">
+  <div class="card">
+    <h1>¡Sorpresa, Dany! 🐗🔥</h1>
+    <p>Dany, gracias por estos <strong>4 meses</strong> increíbles.  
+    Eres mi Inosuke: fuerte, valiente e impulsivo, con esa energía indomable y rudeza que te hacen enfrentar cada reto de la mina y de la vida sin rendirte nunca;  
+    rudo por fuera, noble por dentro, siempre luchando hasta el final.  
+    ¡Te amo mucho! 💜</p>
+    <a class="btn" onclick="goToPage(1)">Volver al inicio</a>
+  </div>
+  <div id="floating-hearts"></div>
+</main>
+
+<script>
+  const pages = [null,
+    document.getElementById('page1'),
+    document.getElementById('page2'),
+    document.getElementById('page3')
+  ];
+
+  function goToPage(n){
+    pages.forEach(p=>{ if(p) p.style.display='none'; });
+    pages[n].style.display='flex';
+    if(n===3) spawnHearts();
+  }
+
+  // Máquina de escribir
+  const text = "Feliz 4 meses, Amorcito de mi Vida, Mi Rey, Mi todo. Gracias por cuidarme, protegerme y hacerme sentir tan Amada y segura cada día. Te Amo Dany!";
+  let i=0;
+  function typeWriter(){
+    if(i<text.length){
+      document.getElementById("typed").innerHTML += text.charAt(i);
+      i++; setTimeout(typeWriter,35);
+    }
+  }
+  typeWriter();
+
+  // Botón No escapa
+  const noBtn=document.getElementById('noBtn');
+  noBtn.addEventListener('mouseenter',()=>{
+    const x=Math.random()*180-90;
+    const y=Math.random()*80-40;
+    noBtn.style.transform=`translate(${x}px,${y}px)`;
+  });
+
+  // Corazones flotantes
+  function spawnHearts(){
+    const container=document.getElementById('floating-hearts');
+    setInterval(()=>{
+      const h=document.createElement('div');
+      h.className='heart'; h.textContent='💖';
+      h.style.left=Math.random()*100+'%';
+      container.appendChild(h);
+      setTimeout(()=>h.remove(),3000);
+    },400);
+  }
+</script>
+</body>
+</html>
