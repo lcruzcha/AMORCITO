@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Feliz 4 meses, Dany 💖</title>
+  <style>
+    /* === CSS INTEGRADO === */
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at center, #1b1b2f, #0f0f1c);
+      color: #fff; text-align: center;
+      overflow-x: hidden;
+    }
+    .page { display: flex; align-items: center; justify-content: center; height: 100vh; padding: 20px; }
+    .card {
+      background: rgba(0,0,0,0.6);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0,255,255,0.4);
+      max-width: 500px;
+      animation: aura 3s infinite alternate;
+    }
+    @keyframes aura {
+      from { box-shadow: 0 0 20px rgba(0,200,255,0.3); }
+      to   { box-shadow: 0 0 40px rgba(100,0,255,0.7); }
+    }
+    h1,h2 { margin: 0 0 20px; }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 8px;
+      background: #00bcd4;
+      color: white; text-decoration: none;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+    .btn:hover { background: #0097a7; }
+    .q { font-size: 1.2rem; }
+    .heart {
+      position: absolute; color: pink; font-size: 20px;
+      animation: float 3s linear infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-100vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main id="page1" class="page">
+    <div class="card">
+      <h1>Feliz 4 meses, Dany 💖</h1>
+      <p id="typed"></p>
+      <a class="btn" onclick="goToPage(2)">Continuar</a>
+    </div>
+  </main>
+
+  <main id="page2" class="page" style="display:none;">
+    <div class="card">
+      <h2 class="q">¿Quieres seguir siendo mi compañero de aventuras?</h2>
+      <div>
+        <button class="btn" onclick="goToPage(3)">Sí</button>
+        <button id="noBtn" class="btn">No</button>
+      </div>
+      <p>(Intenta atrapar el "No" si puedes 😅)</p>
+    </div>
+  </main>
+
+  <main id="page3" class="page" style="display:none; position:relative; overflow:hidden;">
+    <div class="card">
+      <h1>¡Sorpresa, Dany! 🐗🔥</h1>
+      <p>Dany, gracias por estos <strong>4 meses</strong> increíbles.  
+      Eres mi Inosuke: fuerte, valiente e impulsivo, con esa energía indomable y terquedad que te hacen enfrentar cada reto de la mina y de la vida sin rendirte nunca;  
+      rudo por fuera, noble por dentro, siempre luchando hasta el final.  
+      ¡Te quiero mucho! 💜</p>
+      <a class="btn" onclick="goToPage(1)">Volver al inicio</a>
+    </div>
+  </main>
+
+  <script>
+    // === JS INTEGRADO ===
+    const pages = [null,
+      document.getElementById('page1'),
+      document.getElementById('page2'),
+      document.getElementById('page3')
+    ];
+    function goToPage(n){
+      pages.forEach(p=>{ if(p) p.style.display='none'; });
+      pages[n].style.display='flex';
+      if(n===3) spawnHearts();
+    }
+
+    // Efecto máquina de escribir
+    const text = "Eres mi Inosuke: fuerte, valiente e impulsivo, con esa energía indomable y terquedad que te hacen enfrentar cada reto de la mina y de la vida sin rendirte nunca; rudo por fuera, noble por dentro, siempre luchando hasta el final.";
+    let i=0;
+    function typeWriter(){
+      if(i<text.length){
+        document.getElementById("typed").innerHTML += text.charAt(i);
+        i++; setTimeout(typeWriter,35);
+      }
+    }
+    typeWriter();
+
+    // Botón No escapa
+    const noBtn = document.getElementById('noBtn');
+    noBtn.addEventListener('mouseenter',()=>{
+      const x = Math.random()*200 - 100;
+      const y = Math.random()*200 - 100;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    // Corazones flotantes en página 3
+    function spawnHearts(){
+      setInterval(()=>{
+        const h=document.createElement('div');
+        h.className='heart'; h.textContent='💖';
+        h.style.left=Math.random()*100+'%';
+        h.style.bottom='0';
+        h.style.position='absolute';
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),3000);
+      },400);
+    }
+  </script>
+</body>
+</html>
